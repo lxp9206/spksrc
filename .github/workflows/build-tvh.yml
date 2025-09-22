@@ -1,4 +1,4 @@
-name: Build Tvheadend
+name: Build Tvheadend SPK
 
 on:
   push:
@@ -12,17 +12,18 @@ jobs:
 
     env:
       TVH_VERSION: "4.3"
+      PACKAGE_NAME: "tvheadend"
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Install dependencies
+    - name: Install build dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential git cmake ninja-build python3 python3-pip gzip tar wget
+        sudo apt-get install -y build-essential git cmake ninja-build python3 python3-pip gzip tar wget zip
 
-    - name: Verify Chinese file
+    - name: Verify Chinese translation file
       run: ls -l files/tvh.zh-Hans.js.gz
 
     - name: Build Tvheadend
@@ -31,8 +32,18 @@ jobs:
         make clean
         make ARCH=x64 TCVERSION=7.1 tvheadend
 
-    - name: Upload build artifacts
+    - name: Package SPK
+      run: |
+        BUILD_DIR=spksrc/spk/tvheadend/work-x64-7.1/install
+        SPK_DIR=$PACKAGE_NAME
+        mkdir -p $SPK_DIR
+        cp -r $BUILD_DIR/* $SPK_DIR/
+        # 创建安装包 zip
+        zip -r ${PACKAGE_NAME}-x64-${TVH_VERSION}.zip $SPK_DIR
+        ls -lh
+
+    - name: Upload SPK artifact
       uses: actions/upload-artifact@v4
       with:
-        name: tvheadend-build
-        path: spksrc/spk/tvheadend/work-x64-7.1/install
+        name: tvheadend-spk
+        path: spksrc/spk/tvheadend/${PACKAGE_NAME}-x64-${TVH_VERSION}.zip
