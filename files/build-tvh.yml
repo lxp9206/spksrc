@@ -1,0 +1,38 @@
+name: Build Tvheadend
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      TVH_VERSION: "4.3"
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential git cmake ninja-build python3 python3-pip gzip tar wget
+
+    - name: Verify Chinese file
+      run: ls -l files/tvh.zh-Hans.js.gz
+
+    - name: Build Tvheadend
+      working-directory: spksrc/spk/tvheadend
+      run: |
+        make clean
+        make ARCH=x64 TCVERSION=7.1 tvheadend
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: tvheadend-build
+        path: spksrc/spk/tvheadend/work-x64-7.1/install
