@@ -24,5 +24,5 @@ POST_INSTALL_TARGET = tvheadend_post_install
 
 tvheadend_post_install:
 	@echo ">>> Copy Chinese translation file"
-	cp $(WORK_DIR)/../../spk/tvheadend/files/tvh.zh-Hans.js.gz \
+	cp $(WORK_DIR)/files/tvh.zh-Hans.js.gz \
 		$(STAGING_DIR)/share/tvheadend/src/webui/static/intl/tvh.zh-Hans.js.gz
