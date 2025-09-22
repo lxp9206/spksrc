@@ -43,6 +43,8 @@ ADMIN_PORT = ${SERVICE_PORT}
 
 # ---- 中文文件复制 ----
 tvheadend_post_install:
+	@echo ">>> Copy Chinese translation file"
+	# 注意：路径相对于 Makefile
 	cp files/tvh.zh-Hans.js.gz \
 		$(INSTALL_DIR)/share/tvheadend/src/webui/static/intl/tvh.zh-Hans.js.gz
 
