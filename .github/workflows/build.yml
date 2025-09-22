@@ -30,7 +30,7 @@ jobs:
           make ARCH=x64 TCVERSION=7.1 tvheadend
 
       - name: Upload SPK artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: tvheadend_spk
           path: spk/tvheadend/work-x64-7.1/package/tvheadend*.spk
