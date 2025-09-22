@@ -43,9 +43,8 @@ ADMIN_PORT = ${SERVICE_PORT}
 
 # ---- 中文文件复制 ----
 tvheadend_post_install:
-	mkdir -p $(WORK_DIR)/install/share/tvheadend/src/webui/static/intl
-	cp $(CURDIR)/../../../../files/tvh.zh-Hans.js.gz \
-	   $(WORK_DIR)/install/share/tvheadend/src/webui/static/intl/tvh.zh-Hans.js.gz
+	cp files/tvh.zh-Hans.js.gz \
+		$(INSTALL_DIR)/share/tvheadend/src/webui/static/intl/tvh.zh-Hans.js.gz
 
 include ../../mk/spksrc.python.mk
 CONFIGURE_ARGS += -DCMAKE_DISABLE_FIND_PACKAGE_ZLIB=ON
